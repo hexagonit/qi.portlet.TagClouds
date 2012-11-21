@@ -9,6 +9,7 @@ Changelog
 * Do not require cmf.ManagePortal to add or edit the portlet [erral]
 * Base url of link to tags now uses navigation root url instead of plone root url.
   [taito]
+* Updated test to use plone.app.testing. [taito]
 
 1.33
 ----
