@@ -7,6 +7,8 @@ Changelog
 * Moved collective.testcaselayer from the install_requires to a 'test'
   extras_require. [maurits]
 * Do not require cmf.ManagePortal to add or edit the portlet [erral]
+* Base url of link to tags now uses navigation root url instead of plone root url.
+  [taito]
 
 1.33
 ----
@@ -37,12 +39,12 @@ Changelog
 1.30
 ----
 * The product is now accompanied with proper tests. [ggozad]
-* Added filtering by keyword. Thanks to lzdych for the idea and 
+* Added filtering by keyword. Thanks to lzdych for the idea and
   discussions. [ggozad]
-* All important parameters (workflow states, portal types and search path) 
+* All important parameters (workflow states, portal types and search path)
   are now present in the search links. [ggozad]
 * Moved vocabularies. [ggozad]
-* Removed the settings shouldRestrictBySubject and shouldRestrictByTypes. 
+* Removed the settings shouldRestrictBySubject and shouldRestrictByTypes.
   Now just using sane defaults. [ggozad]
 * Modified the caching mechanism, so that it takes into account the portlet
   settings. This ensures separate caching for separate portlets. [ggozad]

@@ -148,7 +148,6 @@ class Renderer(base.Renderer):
 
     def __init__(self, context, request, view, manager, data):
         super(Renderer, self).__init__(context, request, view, manager, data)
-        self.portal_url = getToolByName(context, 'portal_url')()
         self.catalog = getToolByName(context, 'portal_catalog')
         self.putils = getToolByName(context, 'plone_utils')
         self.levels = data.levels
@@ -179,8 +178,8 @@ class Renderer(base.Renderer):
                 continue
             d["text"] = tag
             d["class"] = "cloud" + str(size)
-            href= self.portal_url + \
-                "/search?Subject%3Alist="+url_quote(tag)
+            plone = getMultiAdapter((self.context, self.request), name="plone")
+            href = '{}/search?Subject%3Alist={}'.format(plone.navigationRootUrl(), url_quote(tag))
             #Add type restrictions to search link
             href = href+ "".join(["&portal_type%3Alist="+url_quote(ptype)
                 for ptype in self.restrictTypes])
