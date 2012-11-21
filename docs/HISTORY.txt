@@ -7,8 +7,8 @@ Changelog
 * Moved collective.testcaselayer from the install_requires to a 'test'
   extras_require. [maurits]
 * Do not require cmf.ManagePortal to add or edit the portlet [erral]
-* Base url of link to tags now uses navigation root url instead of plone root url.
-  [taito]
+* Base url of link to tags now uses navigation root url instead of plone root url
+  and /@@search instead of plain /search. [taito]
 * Updated test to use plone.app.testing. [taito]
 
 1.33

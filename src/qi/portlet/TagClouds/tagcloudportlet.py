@@ -179,7 +179,7 @@ class Renderer(base.Renderer):
             d["text"] = tag
             d["class"] = "cloud" + str(size)
             plone = getMultiAdapter((self.context, self.request), name="plone")
-            href = '{}/search?Subject%3Alist={}'.format(plone.navigationRootUrl(), url_quote(tag))
+            href = '{}/@@search?Subject%3Alist={}'.format(plone.navigationRootUrl(), url_quote(tag))
             #Add type restrictions to search link
             href = href+ "".join(["&portal_type%3Alist="+url_quote(ptype)
                 for ptype in self.restrictTypes])

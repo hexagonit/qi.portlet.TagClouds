@@ -43,7 +43,7 @@ Go to portal top::
     <span class="portletTopRight"></span>
     </dt>
     <dd class="portletItem odd lastItem">
-    <a href="http://nohost/plone/search?Subject%3Alist=toremove" rel="nofollow" title="1 items">
+    <a href="http://nohost/plone/@@search?Subject%3Alist=toremove" rel="nofollow" title="1 items">
     <span class="cloud1">toremove</span>
     </a>
     <span class="portletBottomLeft"></span>
