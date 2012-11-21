@@ -16,12 +16,12 @@ setup(name='qi.portlet.TagClouds',
       'License :: OSI Approved :: GNU General Public License (GPL)',
       'Operating System :: OS Independent',
       'Programming Language :: Python',
-      'Topic :: Software Development :: Libraries :: Python Modules',      
+      'Topic :: Software Development :: Libraries :: Python Modules',
         ],
       keywords='plone,tag,cloud,portlet',
       author='Yiorgis Gozadinos',
       author_email='ggozad@jarn.com',
-      url='http://svn.plone.org/svn/collective/qi.portlet.TagClouds',
+      url='https://github.com/ggozad/qi.portlet.TagClouds',
       license='GPL',
       packages=find_packages('src'),
       package_dir = {'':'src'},
@@ -30,11 +30,10 @@ setup(name='qi.portlet.TagClouds',
       platforms='Any',
       zip_safe=False,
       install_requires=[
+          'hexagonit.testing',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
-      extras_require={
-          'test': ['collective.testcaselayer']},
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

@@ -10,13 +10,19 @@ from plone.app.portlets.storage import PortletAssignmentMapping
 
 from qi.portlet.TagClouds import tagcloudportlet
 
-from qi.portlet.TagClouds.tests.base import TagCloudsTestCase
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from qi.portlet.TagClouds.tests.base import IntegrationTestCase
 
 
-class TestPortlet(TagCloudsTestCase):
+class TestPortlet(IntegrationTestCase):
 
-    def afterSetUp(self):
-        self.setRoles(('Manager', ))
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.folder = self.portal[self.portal.invokeFactory('Folder', 'folder')]
+
 
     def test_portlet_type_registered(self):
         portlet = getUtility(
@@ -66,10 +72,3 @@ class TestPortlet(TagCloudsTestCase):
         renderer = getMultiAdapter(
             (context, request, view, manager, assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, tagcloudportlet.Renderer))
-
-
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestPortlet))
-    return suite

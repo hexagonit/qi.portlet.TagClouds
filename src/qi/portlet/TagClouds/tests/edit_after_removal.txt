@@ -1,23 +1,64 @@
-Editing the portlet after a subject that is in the restricted or filtered
-subjects has been removed.
+Log in as Manager::
 
-    >>> self.setRoles('Manager')
+    >>> browser.login(TEST_USER_NAME, TEST_USER_PASSWORD)
+
+Create Document with subject toremove::
+
+    >>> browser.open('/createObject?type_name=Document')
+    >>> browser.getControl(name="title").value = 'REMOVEME'
+    >>> browser.getControl(name="subject_keywords:lines").value = 'toremove'
+    >>> browser.getControl(name="form.button.save").click()
+    >>> print browser.bycss('#category')
+    --- 1 ---
+    <div id="category" class="documentByLine">
+    Filed under:
+    <span>
+    <a href="http://nohost/plone/@@search?Subject%3Alist=toremove" class="link-category" rel="tag">toremove</a>
+    </span>
+    </div>
+
+Add portlet::
+
+    >>> browser.open('/++contextportlets++plone.leftcolumn/+/qi.portlet.TagClouds.TagCloudPortlet')
+    >>> browser.getControl(name="form.refreshInterval").value = '1'
+    >>> browser.getControl(name="form.actions.save").click()
+
+    >>> from plone.portlets.interfaces import IPortletManager
+    >>> from plone.portlets.interfaces import IPortletAssignmentMapping
+    >>> from zope.component import getMultiAdapter
     >>> from zope.component import getUtility
-    >>> from plone.portlets.interfaces import IPortletType
-    >>> removemeid = self.portal.invokeFactory('Document','removeme')
-    >>> self.portal.removeme.editMetadata(subject=['toremove'])
-    >>> self.portal.portal_workflow.doActionFor(self.portal.removeme, 'publish')
-    >>> portlet = getUtility(IPortletType, name='qi.portlet.TagClouds.TagCloudPortlet')
-    >>> request = self.portal.REQUEST
-    >>> mapping = self.portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
-    >>> addview = mapping.restrictedTraverse('+/' + portlet.addview)
-    >>> addview.createAndAdd(data={'restrictSubjects':['toremove'],'refreshInterval':1})
-    
-    >>> browser = self.getBrowser()
-    >>> browser.open("http://nohost/plone")
-    >>> browser.contents
-    '...toremove...'
-    >>> del self.portal[removemeid]
+    >>> manager = getUtility(IPortletManager, name=u"plone.leftcolumn")
+    >>> assignment_mapping = getMultiAdapter((portal, manager), IPortletAssignmentMapping)
+    >>> portlet = assignment_mapping['tag-cloud-portlet']
+    >>> portlet.restrictSubjects = ['toremove']
+
+Go to portal top::
+
+    >>> browser.open('/')
+    >>> print browser.bycss('.portletTagCloudPortlet')
+    --- 1 ---
+    <dl class="portlet portletTagCloudPortlet"><dt class="portletHeader">
+    <span class="portletTopLeft"></span>
+    <span>Tag Cloud</span>
+    <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem odd lastItem">
+    <a href="http://nohost/plone/search?Subject%3Alist=toremove" rel="nofollow" title="1 items">
+    <span class="cloud1">toremove</span>
+    </a>
+    <span class="portletBottomLeft"></span>
+    <span class="portletBottomRight"></span>
+    </dd>
+    </dl>
+
+Remove REMOVEME::
+
+    >>> browser.open('/removeme/delete_confirmation')
+    >>> browser.getControl('Delete').click()
+
     >>> browser.open('http://nohost/plone/++contextportlets++plone.leftcolumn/tag-cloud-portlet/edit')
     >>> 'toremove' not in browser.contents
     True
+
+    >>> browser.open('/')
+    >>> print browser.bycss('.portletTagCloudPortlet')
